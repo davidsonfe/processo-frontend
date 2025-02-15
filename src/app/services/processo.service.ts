@@ -73,7 +73,7 @@ export class ProcessoService {
   
   async deletarProcessoPorNpu(npu: string): Promise<void> {
     try {
-        await axios.delete(`${this.apiUrl}/npu/${npu}`); // Endpoint para deletar por NPU
+        await axios.delete(`${this.apiUrl}/npu/${npu}`); 
     } catch (error) {
         console.error('Erro ao deletar processo por NPU:', error);
         throw error;
@@ -83,7 +83,7 @@ export class ProcessoService {
   
   async uploadArquivo(idProcesso: number, arquivo: File): Promise<void> {
     const formData = new FormData();
-    formData.append('file', arquivo); // ✅ O nome agora corresponde ao backend
+    formData.append('file', arquivo); 
   
     try {
       const response = await axios.post(`${this.apiUrl}/${idProcesso}/upload`, formData, {

@@ -194,8 +194,8 @@ export class ProcessoListComponent implements OnInit {
         return;
     }
     try {
-        await this.processoService.deletarProcessoPorNpu(npu); // Novo método no serviço
-        this.carregarProcessos(); // Recarrega a lista após a exclusão
+        await this.processoService.deletarProcessoPorNpu(npu); 
+        this.carregarProcessos(); 
         alert('Processo excluído com sucesso!');
     } catch (error) {
         console.error(`Erro ao deletar processo com NPU ${npu}:`, error);
