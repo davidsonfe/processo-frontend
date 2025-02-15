@@ -1,0 +1,59 @@
+
+<form (ngSubmit)="salvarProcesso()" *ngIf="!selectedProcesso">
+    <h2>Cadastrar Novo Processo</h2>
+    
+    <label>
+      NPU:
+      <input type="text" [(ngModel)]="processo.npu" name="npu" required />
+    </label>
+  
+    <label>
+      Data de Cadastro:
+      <input type="date" [(ngModel)]="processo.dataCadastro" name="dataCadastro" required />
+    </label>
+  
+    <label>
+      Município:
+      <input type="text" [(ngModel)]="processo.municipio" name="municipio" required />
+    </label>
+  
+    <label>
+      UF:
+      <input type="text" [(ngModel)]="processo.uf" name="uf" required />
+    </label>
+  
+    <button type="submit">Salvar</button>
+  </form>
+ 
+  <table *ngIf="processos.length > 0">
+    <thead>
+      <tr>
+        <th>NPU</th>
+        <th>Data de Cadastro</th>
+        <th>UF</th>
+        <th>Ações</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let processo of processos; trackBy: trackByProcessoId">
+        <td>{{ processo.npu }}</td>
+        <td>{{ processo.dataCadastro | date:'dd/MM/yyyy' }}</td>
+        <td>{{ processo.uf }}</td>
+        <td>
+          <button (click)="abrirDetalhes(processo)" [disabled]="!processo.id">
+            Ver Detalhes
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <div *ngIf="processos.length > 0">
+    <button (click)="previousPage()" [disabled]="currentPage === 0">Anterior</button>
+    <span>Página {{ currentPage + 1 }} de {{ totalPages }}</span>
+    <button (click)="nextPage()" [disabled]="currentPage >= totalPages - 1">Próxima</button>
+  </div>
+  
+  <p *ngIf="processos.length === 0">Nenhum processo cadastrado.</p>
+  

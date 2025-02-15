@@ -1,0 +1,73 @@
+<div class="container">
+    <h2>Gestão de Processos</h2>
+  
+    
+    <button class="btn btn-primary" (click)="abrirFormularioCadastro()">Cadastrar Novo Processo</button>
+  
+    
+    <form (ngSubmit)="salvarProcesso()" *ngIf="modoEdicao || modoCadastro">
+      <h3>{{ modoEdicao ? 'Editar Processo' : 'Novo Processo' }}</h3>
+  
+      <label>
+        NPU:
+        <input type="text" [(ngModel)]="processo.npu" name="npu" required />
+      </label>
+      <label>
+        Data de Cadastro:
+        <input type="date" [(ngModel)]="processo.dataCadastro" (ngModelChange)="formatarDataCadastro()" name="dataCadastro" required />
+      </label>
+     <label>
+        UF:
+      <select [(ngModel)]="processo.uf" name="uf" (change)="carregarMunicipios()">
+        <option *ngFor="let uf of ufs" [ngValue]="uf">{{ uf }}</option>
+      </select>
+     </label>
+      <label>
+        Município:
+        <select [(ngModel)]="processo.municipio" name="municipio" required>
+          <option *ngFor="let municipio of municipios" [ngValue]="municipio">{{ municipio }}</option>
+        </select>
+      </label>
+      <label>
+        Documento (PDF):
+        <input type="file" (change)="onFileChange($event)" accept="application/pdf" />
+      </label>
+      <button class="btn btn-success" type="submit">Salvar</button>
+      <button class="btn btn-secondary" type="button" (click)="fecharFormulario()">Cancelar</button>
+    </form>
+  
+   
+    <div *ngIf="processos.length > 0">
+      <table>
+        <thead>
+          <tr>
+            <th>NPU</th>
+            <th>Data de Cadastro</th>
+            <th>UF</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let processo of processos;">
+            <td>{{ processo.npu }}</td>
+            <td>{{ processo.dataCadastro | date:'dd/MM/yyyy' }}</td>
+            <td>{{ processo.uf }}</td>
+            <td>
+              <button class="btn btn-info" (click)="abrirDetalhes(processo)">Ver Detalhes</button>
+              <button class="btn btn-danger" (click)="deletarProcesso(processo.npu)">Excluir</button>
+              <button class="btn btn-warning" (click)="abrirFormularioCadastro(processo)">Editar</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+  
+      
+      <div class="pagination">
+        <button class="btn btn-secondary" (click)="previousPage()" [disabled]="currentPage === 0 || loading">Anterior</button>
+        <span>Página {{ currentPage + 1 }} de {{ totalPages }}</span>
+        <button class="btn btn-secondary" (click)="nextPage()" [disabled]="currentPage === totalPages - 1 || loading">Próxima</button>
+      </div>
+    </div>
+    <p *ngIf="processos.length === 0">Nenhum processo cadastrado.</p>
+  </div>
+  
